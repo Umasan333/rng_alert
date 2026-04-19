@@ -8,7 +8,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 WATCH_CHANNEL_IDS = {1485655601328554126}
 
 # RenderのURLに書き換える
-ALARM_URL = "https://rng-alert.onrender.com"
+ALARM_URL = "https://rng-alert.onrender.com/alarm"
 
 # Render側のAPI_KEYと同じ値にする
 API_KEY = "3fa8f64f6b82a6772549c4bba19a4ee1"

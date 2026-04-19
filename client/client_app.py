@@ -6,7 +6,7 @@ import winsound
 import time
 
 # RenderのURLに書き換えてください
-WS_URL = "wss://rng-alert.onrender.com/ws"
+WS_URL = "wss://rng-alert.onrender.com//ws"
 
 alarm_running = False
 

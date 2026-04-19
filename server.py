@@ -15,6 +15,7 @@ async def websocket_endpoint(ws: WebSocket):
     await ws.accept()
     clients.append(ws)
     print("client connected:", len(clients))
+
     try:
         while True:
             await ws.receive_text()
@@ -29,6 +30,7 @@ async def alarm(x_api_key: str | None = Header(default=None)):
         raise HTTPException(status_code=401, detail="invalid api key")
 
     dead_clients = []
+
     for ws in clients:
         try:
             await ws.send_json({"type": "alarm"})
