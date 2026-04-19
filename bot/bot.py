@@ -4,13 +4,8 @@ import aiohttp
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-# 監視したいチャンネルIDを入れる
-WATCH_CHANNEL_IDS = {1485655601328554126}
-
-# RenderのURLに書き換える
+WATCH_CHANNEL_IDS = {1466094612652490881}
 ALARM_URL = "https://rng-alert.onrender.com/alarm"
-
-# Render側のAPI_KEYと同じ値にする
 API_KEY = "3fa8f64f6b82a6772549c4bba19a4ee1"
 
 intents = discord.Intents.default()
@@ -32,7 +27,6 @@ async def on_message(message: discord.Message):
 
     if message.mention_everyone:
         print("@everyone detected")
-
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(
