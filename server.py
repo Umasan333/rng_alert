@@ -6,23 +6,37 @@ API_KEY = os.getenv("API_KEY", "change-me")
 app = FastAPI()
 clients = []
 
+@app.get("/")
+async def root():
+    return {"ok": True, "message": "server running"}
+
 @app.websocket("/ws")
 async def websocket_endpoint(ws: WebSocket):
     await ws.accept()
     clients.append(ws)
-
+    print("client connected:", len(clients))
     try:
         while True:
             await ws.receive_text()
     except WebSocketDisconnect:
-        clients.remove(ws)
+        if ws in clients:
+            clients.remove(ws)
+        print("client disconnected:", len(clients))
 
 @app.post("/alarm")
 async def alarm(x_api_key: str | None = Header(default=None)):
     if x_api_key != API_KEY:
-        raise HTTPException(status_code=401)
+        raise HTTPException(status_code=401, detail="invalid api key")
 
+    dead_clients = []
     for ws in clients:
-        await ws.send_json({"type": "alarm"})
+        try:
+            await ws.send_json({"type": "alarm"})
+        except Exception:
+            dead_clients.append(ws)
 
-    return {"ok": True}
+    for ws in dead_clients:
+        if ws in clients:
+            clients.remove(ws)
+
+    return {"ok": True, "clients": len(clients)}
