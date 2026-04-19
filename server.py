@@ -10,6 +10,10 @@ clients = []
 async def root():
     return {"ok": True, "message": "server running"}
 
+@app.head("/")
+async def head_root():
+    return Response(status_code=200)
+
 @app.websocket("/ws")
 async def websocket_endpoint(ws: WebSocket):
     await ws.accept()
